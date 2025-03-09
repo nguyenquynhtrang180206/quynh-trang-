@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm tra số trong JavaScript</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        input, button {
+            margin: 5px;
+            padding: 10px;
+        }
+        #result {
+            font-weight: bold;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h2>Kiểm tra số trong JavaScript</h2>
+    
+    <label for="numInput">Nhập số:</label>
+    <input type="number" id="numInput">
+    
+    <br>
+
+    <button onclick="checkPositive()">Kiểm tra số nguyên dương</button>
+    <button onclick="checkNegative()">Kiểm tra số âm</button>
+    <button onclick="sumNumbers()">Tính tổng hai số</button>
+    <button onclick="solveLinearEquation()">Giải phương trình bậc 1</button>
+    <button onclick="checkPrime()">Kiểm tra số nguyên tố</button>
+    <button onclick="checkPerfectSquare()">Kiểm tra số chính phương</button>
+
+    <br>
+
+    <p id="result"></p>
+
+    <script src="script.js"></script>
+</body>
+</html>
