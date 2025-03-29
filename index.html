@@ -3,42 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kiểm tra số trong JavaScript</title>
+    <title>Trang web đơn giản</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 20px;
         }
-        input, button {
-            margin: 5px;
+        #container {
+            width: 400px;
+            margin: auto;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #f4f4f4;
+            margin: 5px 0;
             padding: 10px;
+            cursor: pointer;
         }
-        #result {
-            font-weight: bold;
+        li:hover {
             color: blue;
+        }
+        .completed {
+            text-decoration: line-through;
+        }
+        #rectangle {
+            width: 100px;
+            height: 50px;
+            background: gray;
+            margin: 20px auto;
+        }
+        #circle {
+            width: 50px;
+            height: 50px;
+            background: red;
+            border-radius: 50%;
+            position: relative;
+            margin: 20px auto;
         }
     </style>
 </head>
 <body>
-    <h2>Kiểm tra số trong JavaScript</h2>
+    <div id="container">
+        <h2>Nhập tên của bạn:</h2>
+        <input type="text" id="name-input">
+        <button onclick="greetUser()">Gửi</button>
+        <p id="greeting"></p>
+
+        <h2>Danh sách</h2>
+        <input type="text" id="item-input" placeholder="Nhập nội dung">
+        <button onclick="addItem()">Thêm vào danh sách</button>
+        <ul id="item-list"></ul>
+
+        <h2>Đổi màu chữ nhật</h2>
+        <div id="rectangle"></div>
+        <button onclick="changeColor()">Đổi màu</button>
+
+        <h2>Di chuyển hình tròn</h2>
+        <div id="circle"></div>
+        <button onclick="moveCircle()">Di chuyển</button>
+    </div>
+    <script src="script.js" defer></script>
+
     
-    <label for="numInput">Nhập số:</label>
-    <input type="number" id="numInput">
-    
-    <br>
-
-    <button onclick="checkPositive()">Kiểm tra số nguyên dương</button>
-    <button onclick="checkNegative()">Kiểm tra số âm</button>
-    <button onclick="sumNumbers()">Tính tổng hai số</button>
-    <button onclick="solveLinearEquation()">Giải phương trình bậc 1</button>
-    <button onclick="checkPrime()">Kiểm tra số nguyên tố</button>
-    <button onclick="checkPerfectSquare()">Kiểm tra số chính phương</button>
-
-    <br>
-
-    <p id="result"></p>
-
-    <script src="script.js"></script>
 </body>
 </html>
