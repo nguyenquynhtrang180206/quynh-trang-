@@ -1,57 +1,49 @@
-// Kiểm tra số nguyên dương
-function checkPositive() {
-    let num = Number(document.getElementById("numInput").value);
-    let result = num > 0 && Number.isInteger(num) ? `${num} là số nguyên dương ✅` : `${num} không phải số nguyên dương ❌`;
-    document.getElementById("result").innerText = result;
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const nameInput = document.getElementById("name-input");
+    const greetingText = document.getElementById("greeting");
 
-//  Kiểm tra số âm
-function checkNegative() {
-    let num = Number(document.getElementById("numInput").value);
-    let result = num < 0 ? `${num} là số âm ✅` : `${num} không phải số âm ❌`;
-    document.getElementById("result").innerText = result;
-}
+    const listInput = document.getElementById("item-input");
+    const itemList = document.getElementById("item-list");
 
-//  Tính tổng hai số
-function sumNumbers() {
-    let num1 = Number(prompt("Nhập số thứ nhất:"));
-    let num2 = Number(prompt("Nhập số thứ hai:"));
-    let sum = num1 + num2;
-    document.getElementById("result").innerText = `Tổng hai số ${num1} + ${num2} = ${sum} ✅`;
-}
+    const colorBox = document.getElementById("rectangle");
+    const circle = document.getElementById("circle");
 
-//  Giải phương trình bậc 1: ax + b = 0
-function solveLinearEquation() {
-    let a = Number(prompt("Nhập a:"));
-    let b = Number(prompt("Nhập b:"));
-    let result;
-    if (a === 0) {
-        result = (b === 0) ? "Phương trình có vô số nghiệm ✅" : "Phương trình vô nghiệm ❌";
-    } else {
-        let x = -b / a;
-        result = `Nghiệm của phương trình là x = ${x} ✅`;
-    }
-    document.getElementById("result").innerText = result;
-}
+    let circlePosition = 0;
 
-// Kiểm tra số nguyên tố
-function checkPrime() {
-    let num = Number(document.getElementById("numInput").value);
-    let isPrime = num > 1;
-    for (let i = 2; i <= Math.sqrt(num); i++) {
-        if (num % i === 0) {
-            isPrime = false;
-            break;
+    // Hiển thị lời chào
+    window.greetUser = function() {
+        const name = nameInput.value.trim();
+        if (name) {
+            greetingText.textContent = `Xin chào, ${name}!`;
         }
-    }
-    let result = isPrime ? `${num} là số nguyên tố ✅` : `${num} không phải số nguyên tố ❌`;
-    document.getElementById("result").innerText = result;
-}
+    };
 
-// Kiểm tra số chính phương
-function checkPerfectSquare() {
-    let num = Number(document.getElementById("numInput").value);
-    let sqrt = Math.sqrt(num);
-    let result = Number.isInteger(sqrt) ? `${num} là số chính phương ✅` : `${num} không phải số chính phương ❌`;
-    document.getElementById("result").innerText = result;
-}
+    // Thêm mục vào danh sách
+    window.addItem = function() {
+        const itemText = listInput.value.trim();
+        if (itemText) {
+            const li = document.createElement("li");
+            li.textContent = itemText;
+
+            // Gạch ngang mục khi click vào
+            li.addEventListener("click", () => {
+                li.classList.toggle("completed");
+            });
+
+            itemList.appendChild(li);
+            listInput.value = "";
+        }
+    };
+
+    // Đổi màu hình chữ nhật
+    window.changeColor = function() {
+        const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+        colorBox.style.background = randomColor;
+    };
+
+    // Di chuyển hình tròn
+    window.moveCircle = function() {
+        circlePosition += 20;
+        circle.style.transform = `translateX(${circlePosition}px)`;
+    };
+});
