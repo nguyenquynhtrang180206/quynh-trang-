@@ -1,72 +1,484 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang web đơn giản</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        #container {
-            width: 400px;
-            margin: auto;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        li {
-            background: #f4f4f4;
-            margin: 5px 0;
-            padding: 10px;
-            cursor: pointer;
-        }
-        li:hover {
-            color: blue;
-        }
-        .completed {
-            text-decoration: line-through;
-        }
-        #rectangle {
-            width: 100px;
-            height: 50px;
-            background: gray;
-            margin: 20px auto;
-        }
-        #circle {
-            width: 50px;
-            height: 50px;
-            background: red;
-            border-radius: 50%;
-            position: relative;
-            margin: 20px auto;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartCharge — Sạc nhanh · An toàn · Chính hãng</title>
+  <meta name="description" content="SmartCharge — Sạc nhanh, an toàn, tương thích nhiều thiết bị. Bảo hành 12-18 tháng, đổi mới 1:1, freeship trong khu vực.">
+  <style>
+    /* ---------- Theme & base ---------- */
+    :root{--accent:#0ea5e9;--bg:#071827;--card:rgba(255,255,255,0.03);--muted:#9aa6b2;--glass:rgba(255,255,255,0.02)}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,'Helvetica Neue',Arial;background:linear-gradient(180deg,var(--bg) 0%, #031827 80%);color:#e6eef6;line-height:1.6;scroll-behavior:smooth}
+    a{color:inherit}
+
+    /* ---------- Header / Nav (sticky) ---------- */
+    header{position:sticky;top:0;z-index:1000;background:rgba(6,12,20,0.6);backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.04)}
+    .container{max-width:1200px;margin:0 auto;padding:12px 20px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:800;color:#022}
+    nav ul{display:flex;gap:8px;list-style:none;padding:0;margin:0}
+    nav a{padding:8px 10px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:14px}
+    nav a:hover{color:#fff;background:rgba(255,255,255,0.03)}
+
+    /* ---------- Sections ---------- */
+    main{padding-bottom:40px}
+    section{padding:48px 20px}
+    .section-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+    h1,h2,h3{margin:0 0 12px}
+    p.lead{color:var(--muted)}
+
+    /* ---------- Hero ---------- */
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:center}
+    .hero-visual{background:linear-gradient(135deg,#022, #0ea5e9);height:220px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px}
+    .battery{width:220px;height:72px;border-radius:12px;background:#071025;padding:8px;border:2px solid rgba(255,255,255,0.06);position:relative}
+    .battery:after{content:'';position:absolute;right:-14px;top:22px;width:12px;height:26px;background:#071025;border-radius:2px}
+    .level{height:100%;width:12%;background:linear-gradient(90deg,#ef4444,#f59e0b,#10b981);border-radius:8px;transition:width 900ms}
+    .hero-features{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.04);font-weight:700}
+
+    /* ---------- Grid for product & tools ---------- */
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+    .product{border-radius:10px;padding:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent)}
+    .p-visual{height:110px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800}
+    .price{font-weight:800}
+
+    /* ---------- Compatibility list & certs ---------- */
+    .compat-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+    .certs{display:flex;gap:10px;flex-wrap:wrap}
+    .cert{padding:8px 10px;border-radius:8px;background:rgba(255,255,255,0.03);color:var(--muted)}
+
+    /* ---------- Media gallery ---------- */
+    .media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+    .media-grid img{width:100%;height:150px;object-fit:cover;border-radius:8px}
+
+    /* ---------- Reviews & rating ---------- */
+    .rating{display:flex;align-items:center;gap:8px;font-weight:800}
+    .review{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px}
+
+    /* ---------- CTA footer ---------- */
+    .cta-row{display:flex;gap:12px;align-items:center}
+
+    /* ---------- Utility ---------- */
+    .muted{color:var(--muted)}
+    .small{font-size:13px}
+    .center{text-align:center}
+    @media(max-width:980px){.hero{grid-template-columns:1fr}.grid-2{grid-template-columns:1fr}.nav ul{display:none}}
+  </style>
 </head>
 <body>
-    <div id="container">
-        <h2>Nhập tên của bạn:</h2>
-        <input type="text" id="name-input">
-        <button onclick="greetUser()">Gửi</button>
-        <p id="greeting"></p>
-
-        <h2>Danh sách</h2>
-        <input type="text" id="item-input" placeholder="Nhập nội dung">
-        <button onclick="addItem()">Thêm vào danh sách</button>
-        <ul id="item-list"></ul>
-
-        <h2>Đổi màu chữ nhật</h2>
-        <div id="rectangle"></div>
-        <button onclick="changeColor()">Đổi màu</button>
-
-        <h2>Di chuyển hình tròn</h2>
-        <div id="circle"></div>
-        <button onclick="moveCircle()">Di chuyển</button>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">SC</div>
+        <div>
+          <div style="font-weight:800">SmartCharge</div>
+          <div class="small muted">Sạc nhanh · An toàn · Chính hãng</div>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#hero">Trang chủ</a></li>
+          <li><a href="#products">Sản phẩm</a></li>
+          <li><a href="#features">Tính năng</a></li>
+          <li><a href="#compatibility">Tương thích</a></li>
+          <li><a href="#media">Hình ảnh</a></li>
+          <li><a href="#pricing">Giá & KM</a></li>
+          <li><a href="#policy">Chính sách</a></li>
+          <li><a href="#reviews">Đánh giá</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#game">Mini-game</a></li>
+        </ul>
+      </nav>
     </div>
-    <script src="script.js" defer></script>
+  </header>
 
-    
+  <main>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="container hero">
+        <div>
+          <h1>SmartCharge — Sạc nhanh · An toàn · Chính hãng · Giá hợp lý</h1>
+          <p class="lead">Sạc nhanh cho điện thoại, tablet và laptop. Bảo vệ quá dòng, quá áp, quá nhiệt. Thiết kế nhỏ gọn, dễ mang theo. Cam kết đổi mới 1:1 trong 12 tháng.</p>
+
+          <div class="hero-features">
+            <span class="badge">PD / GaN</span>
+            <span class="badge">Hỗ trợ nhiều thiết bị</span>
+            <span class="badge">Bảo hành 12-18 tháng</span>
+          </div>
+
+          <div style="margin-top:16px;display:flex;gap:12px;align-items:center">
+            <a class="cta" href="#products">Xem sản phẩm</a>
+            <a style="padding:10px 12px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);text-decoration:none" href="#pricing">Khuyến mãi</a>
+          </div>
+
+          <div style="margin-top:18px;color:var(--muted)" class="small">Thông điệp: <strong>“Sạc nhanh – An toàn – Chính hãng – Giá hợp lý”</strong></div>
+        </div>
+
+        <aside>
+          <div class="section-card center">
+            <div class="battery" aria-hidden="true">
+              <div class="level" id="batteryLevel" style="width:12%"></div>
+            </div>
+            <div style="margin-top:10px;font-weight:700" id="batteryLabel">1%</div>
+            <div class="muted small">Thời gian ước tính: <span id="estTime">—</span></div>
+          </div>
+
+          <div style="margin-top:12px" class="section-card">
+            <div style="font-weight:700">Hotline</div>
+            <div class="muted small">Hỗ trợ mua hàng 24/7: 1900-XXX-XXX</div>
+            <div style="margin-top:8px"><button onclick="location.href='#pricing'" class="cta">Mua ngay</button></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products">
+      <div class="container">
+        <h2>Sản phẩm</h2>
+        <p class="lead">Chúng tôi cung cấp cả dòng <strong>sạc nhanh (GaN, PD)</strong> và <strong>sạc thường</strong> — phù hợp cho điện thoại, tablet và laptop.</p>
+
+        <div class="products-grid">
+          <div class="product">
+            <div class="p-visual" style="background:linear-gradient(135deg,#06283d,#0ea5e9)">GaN 65W</div>
+            <div class="p-title">SmartCharge GaN 65W</div>
+            <div class="muted small">PD 3.0 • 2 cổng (USB-C + USB-C)</div>
+            <div class="p-meta">Tương thích: Điện thoại, Tablet, Laptop nhỏ (MacBook Air 13"...), bảo hành 18 tháng</div>
+            <div style="margin-top:8px" class="price">₫699.000</div>
+            <div style="margin-top:8px;display:flex;gap:8px"><button class="btn btn-primary" onclick="addToCart('GaN 65W')">Mua</button><button class="btn">Thêm yêu thích</button></div>
+          </div>
+
+          <div class="product">
+            <div class="p-visual" style="background:linear-gradient(135deg,#0f1724,#06b6d4)">PD 30W</div>
+            <div class="p-title">SmartCharge PD 30W</div>
+            <div class="muted small">PD • 1 cổng USB-C</div>
+            <div class="p-meta">Tương thích: Điện thoại & Tablet, bảo hành 12 tháng</div>
+            <div style="margin-top:8px" class="price">₫249.000</div>
+            <div style="margin-top:8px;display:flex;gap:8px"><button class="btn btn-primary" onclick="addToCart('PD 30W')">Mua</button><button class="btn">Thêm yêu thích</button></div>
+          </div>
+
+          <div class="product">
+            <div class="p-visual" style="background:linear-gradient(135deg,#022,#10b981)">Sạc thường 10W</div>
+            <div class="p-title">SmartCharge 10W</div>
+            <div class="muted small">Sạc tiêu chuẩn • 1 cổng USB-A</div>
+            <div class="p-meta">Giải pháp tiết kiệm cho thiết bị không cần sạc nhanh</div>
+            <div style="margin-top:8px" class="price">₫89.000</div>
+            <div style="margin-top:8px;display:flex;gap:8px"><button class="btn btn-primary" onclick="addToCart('10W')">Mua</button><button class="btn">Thêm yêu thích</button></div>
+          </div>
+
+          <div class="product">
+            <div class="p-visual" style="background:linear-gradient(135deg,#823,#d06)">Cáp PD 1.5m</div>
+            <div class="p-title">Cáp Type-C ↔ Lightning / Type-C</div>
+            <div class="muted small">Bện chống gãy • Hỗ trợ sạc nhanh</div>
+            <div style="margin-top:8px" class="price">₫129.000</div>
+            <div style="margin-top:8px;display:flex;gap:8px"><button class="btn btn-primary" onclick="addToCart('Cáp PD')">Mua</button><button class="btn">Thêm yêu thích</button></div>
+          </div>
+        </div>
+
+        <!-- cross-sell suggestion -->
+        <div style="margin-top:16px" class="section-card">
+          <h4>Gợi ý combo</h4>
+          <p class="muted small">Tiết kiệm khi mua kèm cáp hoặc mua combo 2 sản phẩm.</p>
+          <ul>
+            <li>GaN 65W + Cáp PD: ₫799.000 (Tiết kiệm ₫29.000)</li>
+            <li>2 x PD 30W: giảm 10%</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FEATURES (Safety, design, compat) -->
+    <section id="features">
+      <div class="container">
+        <h2>Tính năng & An toàn</h2>
+        <div class="grid-2">
+          <div class="section-card">
+            <h3>Sạc nhanh / Sạc thường</h3>
+            <p class="muted">Tùy theo nhu cầu: lựa chọn sạc nhanh GaN/PD cho sạc nhanh hoặc sạc thường cho tiết kiệm. Các sản phẩm ghi rõ công suất và tốc độ ước tính.</p>
+
+            <h3 style="margin-top:10px">Bảo vệ an toàn</h3>
+            <ul class="muted small">
+              <li>Bảo vệ quá dòng (Over-current protection)</li>
+              <li>Bảo vệ quá áp (Over-voltage protection)</li>
+              <li>Bảo vệ quá nhiệt (Over-temperature protection)</li>
+              <li>Bảo vệ ngắn mạch (Short-circuit protection)</li>
+            </ul>
+
+            <h3 style="margin-top:10px">Thiết kế</h3>
+            <p class="muted">Thiết kế nhỏ gọn, nhẹ, dễ mang theo khi đi công tác, du lịch.</p>
+          </div>
+
+          <div class="section-card">
+            <h3>Tương thích nhiều thiết bị</h3>
+            <p class="muted">Hỗ trợ điện thoại, tablet và laptop nhỏ (tuỳ model). Hỗ trợ sạc ngược cho thiết bị cũ, tốc độ có thể chậm hơn (backward compatible).</p>
+
+            <h4 style="margin-top:8px">Danh sách mẫu hỗ trợ (ví dụ):</h4>
+            <div class="compat-list muted">
+              <div>iPhone 15 / 14 / 13 / 12</div>
+              <div>Samsung Galaxy S23 / S22 / S21</div>
+              <div>Xiaomi 12 / 13</div>
+              <div>MacBook Air 13" (một số model)</div>
+              <div>iPad (USB-C)</div>
+              <div>Laptop USB-C nhỏ: Dell XPS 13, Lenovo Slim</div>
+            </div>
+
+            <p class="small muted" style="margin-top:8px">Ghi chú: Danh sách chỉ mang tính minh họa. Kiểm tra kỹ model trước khi mua để chọn công suất phù hợp.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPATIBILITY (detailed) -->
+    <section id="compatibility">
+      <div class="container">
+        <h2>Thông tin tương thích chi tiết</h2>
+        <div class="section-card">
+          <h4>Hỗ trợ tối ưu cho:</h4>
+          <ul class="muted small">
+            <li>iPhone với PD (sạc nhanh)</li>
+            <li>Samsung với QuickCharge & PD</li>
+            <li>Tablet & iPad: một số sử dụng USB-C</li>
+            <li>Laptop nhỏ dùng USB-C PD (xem chú thích model)</li>
+          </ul>
+
+          <h4 style="margin-top:8px">Tương thích ngược</h4>
+          <p class="muted small">Sản phẩm có thể sạc cho thiết bị cũ dùng cổng USB-A/USB-C, nhưng tốc độ sạc sẽ theo chuẩn thiết bị nhận (thường chậm hơn so với thiết bị mới hỗ trợ PD/GaN).</p>
+
+          <h4 style="margin-top:8px">Lời khuyên chọn công suất</h4>
+          <ul class="muted small">
+            <li>Điện thoại hiện đại: 20–30W đủ nhanh.</li>
+            <li>Tablet / iPad: 30–45W.</li>
+            <li>Laptop nhỏ: 45–65W hoặc cao hơn tuỳ model.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEDIA (images & videos) -->
+    <section id="media">
+      <div class="container">
+        <h2>Hình ảnh & Video minh họa</h2>
+        <p class="muted">Ảnh sản phẩm nhiều góc độ và video demo tốc độ sạc giúp khách hàng tin tưởng hơn.</p>
+        <div class="media-grid">
+          <img src="https://via.placeholder.com/400x250?text=M%E1%BA%B7t+tr%C6%B0%E1%BB%9Dc" alt="Mặt trước sản phẩm">
+          <img src="https://via.placeholder.com/400x250?text=M%E1%BA%B7t+sau" alt="Mặt sau sản phẩm">
+          <img src="https://via.placeholder.com/400x250?text=C%E1%BB%93ng+s%E1%BA%A5c" alt="Cổng sạc">
+          <img src="https://via.placeholder.com/400x250?text=K%C3%ADch+th%C6%B0%E1%BB%9Dc+khi+c%E1%BA%BFm" alt="Kích thước khi cắm điện">
+        </div>
+
+        <div style="margin-top:12px" class="section-card">
+          <h4>Video demo</h4>
+          <div class="muted small">(Chèn video review hoặc demo tốc độ sạc tại đây)</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING & PROMO -->
+    <section id="pricing">
+      <div class="container">
+        <h2>Giá bán & Khuyến mãi</h2>
+        <div class="grid-2">
+          <div class="section-card">
+            <h4>Giá niêm yết</h4>
+            <ul class="muted small">
+              <li>SmartCharge GaN 65W: ₫699.000</li>
+              <li>SmartCharge PD 30W: ₫249.000</li>
+              <li>SmartCharge 10W: ₫89.000</li>
+              <li>Cáp PD 1.5m: ₫129.000</li>
+            </ul>
+
+            <h4 style="margin-top:8px">Khuyến mãi</h4>
+            <ul class="muted small">
+              <li>Mua 2 giảm 10%</li>
+              <li>Combo GaN 65W + Cáp: ₫799.000</li>
+              <li>Voucher 10% cho khách hàng lần đầu</li>
+              <li>Freeship cho đơn hàng từ ₫500.000</li>
+            </ul>
+          </div>
+
+          <div class="section-card">
+            <h4>Hình thức thanh toán</h4>
+            <p class="muted small">Hỗ trợ: COD, chuyển khoản ngân hàng, thẻ ATM/credit, ví điện tử (Momo, VNPayPay...), thanh toán QR.</p>
+            <h4 style="margin-top:8px">Bảo mật thanh toán</h4>
+            <p class="muted small">Sử dụng cổng thanh toán uy tín, mã hóa TLS, tuân thủ tiêu chuẩn thanh toán an toàn.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POLICY -->
+    <section id="policy">
+      <div class="container">
+        <h2>Chính sách bán hàng</h2>
+        <div class="section-card">
+          <h4>Bảo hành & Đổi trả</h4>
+          <ul class="muted small">
+            <li>Bảo hành chính hãng 12–18 tháng tuỳ sản phẩm.</li>
+            <li>Đổi mới 1:1 trong 30 ngày nếu lỗi nhà sản xuất.</li>
+            <li>Đổi trả trong 7 ngày (không ảnh hưởng sản phẩm, còn nguyên seal).</li>
+          </ul>
+
+          <h4 style="margin-top:8px">Cam kết chất lượng</h4>
+          <p class="muted small">Hàng chính hãng, có tem bảo hành. Hiển thị chứng nhận an toàn và logo đối tác nếu có (Apple MFi, Samsung, Anker...).</p>
+
+          <h4 style="margin-top:8px">Giao hàng</h4>
+          <ul class="muted small">
+            <li>Miễn phí giao hàng cho đơn từ ₫500.000</li>
+            <li>Giao nhanh trong nội thành: trong 2 giờ (tùy khu vực)</li>
+            <li>Hỗ trợ COD (thu tiền tận nơi)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews">
+      <div class="container">
+        <h2>Đánh giá & Nhận xét khách hàng</h2>
+        <div class="grid-2">
+          <div>
+            <div class="rating"><span style="color:#ffcc00">★★★★★</span><span class="muted small">(4.8 – 1,234 đánh giá)</span></div>
+            <div style="margin-top:12px" class="review">“Sạc rất nhanh, gần như không nóng, rất hài lòng. Giao hàng sớm hơn dự kiến.” — Minh, HN</div>
+            <div style="margin-top:8px" class="review">“Tôi mua cho MacBook Air, hiệu suất tốt, nhỏ gọn.” — Lan, HCM</div>
+          </div>
+          <div>
+            <h4 class="muted small">Lời khuyên từ khách hàng</h4>
+            <ul class="muted small">
+              <li>Kiểm tra model để chọn công suất phù hợp.</li>
+              <li>Sử dụng cáp chính hãng để đạt tốc độ tối ưu.</li>
+              <li>Lưu giữ tem bảo hành khi có lỗi.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BRAND POSITIONING, MARKETING & RETENTION -->
+    <section id="brand">
+      <div class="container">
+        <h2>Định vị thương hiệu & Marketing</h2>
+        <div class="section-card">
+          <h4>Định vị</h4>
+          <p class="muted small">SmartCharge – phụ kiện sạc tập trung vào: Sạc nhanh, An toàn, Chính hãng, Giá hợp lý.</p>
+
+          <h4 style="margin-top:8px">Chiến lược Digital Marketing</h4>
+          <ul class="muted small">
+            <li>SEO: từ khoá hướng đến model cụ thể (ví dụ: sạc GaN 65W laptop, sạc nhanh iPhone 15).</li>
+            <li>Chạy quảng cáo Google / Facebook / TikTok với video review ngắn.</li>
+            <li>Hợp tác KOL/Reviewer công nghệ để tăng độ tin cậy.</li>
+            <li>Tạo nội dung so sánh (30W vs 65W, GaN vs truyền thống).</li>
+          </ul>
+
+          <h4 style="margin-top:8px">Giữ chân khách hàng (Retention)</h4>
+          <ul class="muted small">
+            <li>Bảo hành nhanh & hỗ trợ 24/7 (chat hoặc hotline).</li>
+            <li>Email/SMS khuyến mãi sinh nhật, lễ tết.</li>
+            <li>Tích điểm khi mua hàng → đổi voucher.</li>
+            <li>Group cộng đồng (Facebook/Zalo) để chia sẻ mẹo dùng.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIFFERENTIATORS & OPERATIONS -->
+    <section id="diff">
+      <div class="container">
+        <h2>Điểm khác biệt & Vận hành</h2>
+        <div class="section-card">
+          <h4>Ưu thế cạnh tranh</h4>
+          <ul class="muted small">
+            <li>Cam kết: Sạc không gây hại máy — Đổi mới 1:1 trong 12 tháng.</li>
+            <li>Đóng gói cẩn thận, giao hàng nhanh trong ngày (khu vực nội thành).</li>
+            <li>Tư vấn chọn sạc tối ưu theo thiết bị — không bán ồ ạt.</li>
+          </ul>
+
+          <h4 style="margin-top:8px">Cross-sell & Upsell</h4>
+          <p class="muted small">Gợi ý mua thêm cáp, túi chống sốc, pin dự phòng khi khách xem sản phẩm để tăng AOV.</p>
+
+          <h4 style="margin-top:8px">Tài khoản khách hàng</h4>
+          <p class="muted small">Khách dễ theo dõi đơn & bảo hành; shop lưu dữ liệu để remarketing hiệu quả.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MINI-GAME (interaction) -->
+    <section id="game">
+      <div class="container">
+        <h2>Mini-game: Đua Pin (Nhận voucher)</h2>
+        <div class="section-card">
+          <p class="muted">Nhấn 'Sạc' để tăng % pin. Đạt 100% nhận voucher SC10OFF (demo).</p>
+          <div style="margin-top:10px" class="center">
+            <div style="max-width:460px;margin:0 auto">
+              <div style="height:18px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden"><i id="gameProgress" style="display:block;height:100%;width:0%;background:linear-gradient(90deg,#06b6d4,#10b981);transition:width 400ms"></i></div>
+              <div style="margin-top:10px;display:flex;gap:10px;justify-content:center"><button class="btn btn-primary" id="gameBtn">Sạc!</button><button class="btn" id="resetGame">Đặt lại</button></div>
+              <p id="gameMsg" class="muted small" style="margin-top:8px"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section id="blog">
+      <div class="container">
+        <h2>Blog & Nội dung hữu ích</h2>
+        <div class="section-card">
+          <h4>Các bài viết gợi ý</h4>
+          <ul class="muted small">
+            <li>“Cách chọn củ sạc phù hợp cho iPhone / Samsung / Laptop”</li>
+            <li>“So sánh 30W vs 65W — Nên mua loại nào?”</li>
+            <li>“GaN là gì và vì sao nên chọn?”</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container center muted small">
+      <div style="margin-bottom:8px">© SmartCharge 2025 • Hàng chính hãng, có tem bảo hành</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <div class="cert">Apple MFi</div>
+        <div class="cert">Samsung Certified</div>
+        <div class="cert">CE / RoHS</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ======= Simulators & game logic =======
+    const modelSpeeds = {iphone13:0.4, iphone12:0.45, s22:0.35, xiaomi12:0.33, other:0.6};
+    function formatMinutes(min){ if(min<60) return Math.round(min)+' phút'; const h=Math.floor(min/60); const m=Math.round(min%60); return h+'h '+(m>0?m+'p':''); }
+
+    // demo hero battery update (keeps page lively)
+    (function(){ let v=12; setInterval(()=>{ v+=Math.random()*1.8; if(v>22) v = 12 + Math.random()*6; const w=Math.round(v); const el=document.getElementById('batteryLevel'); if(el) el.style.width = w+'%'; const lbl=document.getElementById('batteryLabel'); if(lbl) lbl.innerText = w+'%'; },2200); })();
+
+    // Mini-game
+    let gamePct=0; const progressEl=document.getElementById('gameProgress'), msgEl=document.getElementById('gameMsg');
+    document.addEventListener('click',function(e){ if(e.target && e.target.id==='gameBtn'){ if(gamePct>=100) return; const inc=Math.floor(Math.random()*18)+6; gamePct=Math.min(100,gamePct+inc); if(progressEl) progressEl.style.width = gamePct+'%'; if(msgEl) msgEl.innerText = gamePct>=100 ? 'Chúc mừng! Mã giảm giá: SC10OFF' : 'Sạc... '+gamePct+'%'; }});
+    document.addEventListener('click',function(e){ if(e.target && e.target.id==='resetGame'){ gamePct=0; if(progressEl) progressEl.style.width='0%'; if(msgEl) msgEl.innerText=''; }});
+
+    function addToCart(name){ alert(name + ' đã được thêm vào giỏ (demo).'); }
+
+    // Optional: Highlight active nav link on scroll
+    const sections = document.querySelectorAll('main section[id]');
+    const navLinks = document.querySelectorAll('header nav ul li a');
+    window.addEventListener('scroll',()=>{
+      let fromTop = window.scrollY + 80;
+      sections.forEach(sec=>{
+        const id = sec.id; const top = sec.offsetTop; const height = sec.offsetHeight;
+        const link = document.querySelector('header nav ul li a[href="#'+id+'"]');
+        if(link){ if(fromTop >= top && fromTop < top + height){ link.style.background = 'rgba(255,255,255,0.04)'; link.style.color = '#fff'; } else { link.style.background = 'transparent'; link.style.color = ''; } }
+      });
+    });
+  </script>
 </body>
 </html>
